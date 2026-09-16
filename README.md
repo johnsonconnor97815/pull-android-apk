@@ -34,7 +34,7 @@ claude plugin install pull-android-apk@pull-android-apk
 
 安装后可调用 `/pull-android-apk:pull-android-apk`，或直接让 Claude 拉取指定包。`claude plugin details pull-android-apk@pull-android-apk` 可以查看它识别到的 Skill。
 
-两套原生安装入口都从这个 GitHub 仓库下载完整 Skill 和脚本，并将 Skill 注册到 Agent 中。当前仓库为私有仓库，安装前需要能通过 Git 访问该仓库；以后若改为公开仓库，命令不变。Android SDK、Java 和设备连接仍按下方运行依赖准备。
+两套原生安装入口都从这个 GitHub 仓库下载完整 Skill 和脚本，并将 Skill 注册到 Agent 中。仓库已公开，下载时无需 GitHub 身份验证。Android SDK、Java 和设备连接仍按下方运行依赖准备。
 
 ## 通过通用 Skill 安装器安装
 
@@ -50,8 +50,6 @@ npx skills add johnsonconnor97815/pull-android-apk --skill pull-android-apk
 npx skills add johnsonconnor97815/pull-android-apk \
   --skill pull-android-apk --agent claude-code codex opencode cursor --global
 ```
-
-私有仓库需要先配置 Git、GitHub CLI 或 SSH 身份验证。安装命令相同；不要把访问令牌写进 URL。
 
 不使用 Node.js 时，可直接克隆到目标 Agent 的技能目录。例如 Codex 的用户技能目录：
 
