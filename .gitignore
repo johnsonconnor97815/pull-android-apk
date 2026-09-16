@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.ruff_cache/
+.venv/
+.env
+.DS_Store
+exports/
+*.apk
+*.apks
+*.xapk
+*.apkm
+*.keystore
+*.jks
+*.pem
+*.log
+skills-lock.json
