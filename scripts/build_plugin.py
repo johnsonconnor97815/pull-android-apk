@@ -14,7 +14,6 @@ FILES = (
     "scripts/apk_pull.py",
     "scripts/android_tools.py",
     "references/export-format.md",
-    "references/provenance.md",
 )
 
 

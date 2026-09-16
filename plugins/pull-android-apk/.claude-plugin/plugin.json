@@ -1,6 +1,6 @@
 {
   "name": "pull-android-apk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Export an installed Android app and every split APK with signature and hash verification.",
   "author": {
     "name": "johnsonconnor97815"

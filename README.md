@@ -1,8 +1,8 @@
 # pull-android-apk
 
-独立的 Agent Skill：从 Android 设备导出指定应用的主 APK 和全部已安装拆分 APK，并校验包名、版本、签名和 SHA-256。
+`pull-android-apk` 是一个 Agent Skill，用于从 Android 设备导出指定应用的主 APK 和全部已安装拆分 APK，并校验包名、版本、签名和 SHA-256。
 
-采用通用 `SKILL.md` 格式，适用于支持 Agent Skills 和本地命令执行的工具，包括 Codex、Claude Code、OpenCode、Cursor。无需 AppCopy、MCP 服务或 Python 第三方包。
+采用通用 `SKILL.md` 格式，适用于支持 Agent Skills 和本地命令执行的工具，包括 Codex、Claude Code、OpenCode、Cursor。Python 脚本仅使用标准库，无需 MCP 服务。
 
 ## 直接从仓库安装到 Codex CLI
 
@@ -119,6 +119,8 @@ com.example.app/
 
 实际 APK 名称和数量由设备的安装状态决定。输出目录不覆盖。文件在临时目录中拉取和校验，完成后发布到目标目录。
 
+`manifest.json` 的字段、校验规则和完整性状态见[归档格式](references/export-format.md)。
+
 ## 完整性与失败处理
 
 - 拉取 `pm path` 返回的每个 APK，并对照 `dumpsys package` 的拆分清单。
@@ -132,18 +134,23 @@ com.example.app/
 
 这里只导出当前设备**已经安装**的 APK。未安装的按需模块、OBB、应用私有数据不在范围内。脚本不会修改设备或应用，也不会联网下载应用。文件哈希和来源记录用于复核归档，不构成第三方签署的来源证明。
 
-## 开发与测试
+## 开发与维护
+
+Skill、脚本、文档和测试均在本仓库维护。根目录的 `SKILL.md`、`agents/`、`scripts/`、`references/` 和 `LICENSE` 是维护源，`plugins/pull-android-apk/skills/pull-android-apk/` 保存用于原生插件安装的 Skill 副本。
+
+修改源文件后，在仓库根目录生成分发副本并运行检查：
 
 ```bash
+python3 scripts/build_plugin.py
 python3 -S -m unittest discover -s tests -v
 python3 scripts/build_plugin.py --check
 ```
 
 测试使用模拟 ADB、AAPT2、APK Signer 和临时 APK，不连接真实设备，不需要 Android SDK。`-S` 禁用 Python 第三方包加载，用于检查运行时独立性。
 
-根目录的 `SKILL.md` 和脚本是维护源。修改后执行 `python3 scripts/build_plugin.py`，将完整 Skill 同步到 `plugins/pull-android-apk/skills/pull-android-apk/`；CI 检查分发副本与维护源一致。Codex 和 Claude Code 分别使用 `.agents/plugins/marketplace.json` 与 `.claude-plugin/marketplace.json`，两者指向同一个插件目录。
+CI 在 Linux 和 macOS 上运行测试，并检查分发副本与维护源一致。新增或删除分发文件时，同步修改 `scripts/build_plugin.py` 的文件清单，并清理分发目录中的旧文件。
 
-本项目从 AppCopy 的 APK 归档能力拆出，改为独立的导出格式，详见 [来源说明](references/provenance.md) 和 [归档格式](references/export-format.md)。它不输出 AppCopy 的 TargetArtifactSet 认证记录。
+Codex 和 Claude Code 分别使用 `.agents/plugins/marketplace.json` 与 `.claude-plugin/marketplace.json`，两者指向同一个插件目录。发布插件更新时，同步递增两份插件 manifest 和 Claude Code marketplace 条目中的版本号。
 
 安装资料：[Agent Skills 规范](https://agentskills.io/specification)、[Skills CLI](https://github.com/vercel-labs/skills)、[Codex CLI 插件命令](https://developers.openai.com/codex/cli/reference#codex-plugin)、[Claude Code 插件安装](https://code.claude.com/docs/en/discover-plugins)。
 

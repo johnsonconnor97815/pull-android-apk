@@ -9,7 +9,7 @@
       "name": "pull-android-apk",
       "source": "./plugins/pull-android-apk",
       "description": "Export an installed Android app and every split APK with signature and hash verification.",
-      "version": "0.1.1"
+      "version": "0.1.2"
     }
   ]
 }

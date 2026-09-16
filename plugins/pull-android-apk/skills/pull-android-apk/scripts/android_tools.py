@@ -1,6 +1,6 @@
-"""Android SDK adapters extracted from AppCopy's APK acquisition skill.
+"""Android SDK tool discovery, command execution, and APK metadata parsing.
 
-Only standard-library imports; no AppCopy runtime dependency.
+Uses only the Python standard library.
 """
 
 from __future__ import annotations
