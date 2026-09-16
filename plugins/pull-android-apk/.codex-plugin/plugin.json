@@ -1,0 +1,20 @@
+{
+  "name": "pull-android-apk",
+  "version": "0.1.1",
+  "description": "Export an installed Android app and every split APK with signature and hash verification.",
+  "author": {
+    "name": "johnsonconnor97815"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Pull Android APK",
+    "shortDescription": "Export and verify installed Android APK sets",
+    "longDescription": "Pull the base APK and all installed split APKs over ADB, verify signatures and hashes, and retain a local source record.",
+    "developerName": "johnsonconnor97815",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Use Pull Android APK to export an installed Android app and every split APK."
+  },
+  "repository": "https://github.com/johnsonconnor97815/pull-android-apk",
+  "license": "MIT"
+}

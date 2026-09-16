@@ -4,7 +4,39 @@
 
 采用通用 `SKILL.md` 格式，适用于支持 Agent Skills 和本地命令执行的工具，包括 Codex、Claude Code、OpenCode、Cursor。无需 AppCopy、MCP 服务或 Python 第三方包。
 
-## 安装到 Agent
+## 直接从仓库安装到 Codex CLI
+
+在终端运行 Codex 自带的插件安装命令：
+
+```bash
+codex plugin marketplace add johnsonconnor97815/pull-android-apk
+codex plugin add pull-android-apk@pull-android-apk
+```
+
+然后新开一个 Codex 会话，使用 `pull-android-apk`，或直接描述拉取 APK 的需求。用 `codex plugin list` 检查安装状态。该入口需要提供 `codex plugin` 子命令的版本；旧版可使用下方的通用 Skill 安装方式。
+
+## 直接从仓库安装到 Claude Code CLI
+
+在终端运行 Claude Code 自带的安装命令：
+
+```bash
+claude plugin marketplace add johnsonconnor97815/pull-android-apk
+claude plugin install pull-android-apk@pull-android-apk
+```
+
+也可以在 Claude Code 交互会话内执行：
+
+```text
+/plugin marketplace add johnsonconnor97815/pull-android-apk
+/plugin install pull-android-apk@pull-android-apk
+/reload-plugins
+```
+
+安装后可调用 `/pull-android-apk:pull-android-apk`，或直接让 Claude 拉取指定包。`claude plugin details pull-android-apk@pull-android-apk` 可以查看它识别到的 Skill。
+
+两套原生安装入口都从这个 GitHub 仓库下载完整 Skill 和脚本，并将 Skill 注册到 Agent 中。当前仓库为私有仓库，安装前需要能通过 Git 访问该仓库；以后若改为公开仓库，命令不变。Android SDK、Java 和设备连接仍按下方运行依赖准备。
+
+## 通过通用 Skill 安装器安装
 
 使用 [Vercel Skills CLI](https://github.com/vercel-labs/skills)：
 
@@ -106,13 +138,16 @@ com.example.app/
 
 ```bash
 python3 -S -m unittest discover -s tests -v
+python3 scripts/build_plugin.py --check
 ```
 
 测试使用模拟 ADB、AAPT2、APK Signer 和临时 APK，不连接真实设备，不需要 Android SDK。`-S` 禁用 Python 第三方包加载，用于检查运行时独立性。
 
+根目录的 `SKILL.md` 和脚本是维护源。修改后执行 `python3 scripts/build_plugin.py`，将完整 Skill 同步到 `plugins/pull-android-apk/skills/pull-android-apk/`；CI 检查分发副本与维护源一致。Codex 和 Claude Code 分别使用 `.agents/plugins/marketplace.json` 与 `.claude-plugin/marketplace.json`，两者指向同一个插件目录。
+
 本项目从 AppCopy 的 APK 归档能力拆出，改为独立的导出格式，详见 [来源说明](references/provenance.md) 和 [归档格式](references/export-format.md)。它不输出 AppCopy 的 TargetArtifactSet 认证记录。
 
-安装资料：[Agent Skills 规范](https://agentskills.io/specification)、[Skills CLI](https://github.com/vercel-labs/skills)、[Codex 官方技能文档](https://developers.openai.com/codex/skills)。
+安装资料：[Agent Skills 规范](https://agentskills.io/specification)、[Skills CLI](https://github.com/vercel-labs/skills)、[Codex CLI 插件命令](https://developers.openai.com/codex/cli/reference#codex-plugin)、[Claude Code 插件安装](https://code.claude.com/docs/en/discover-plugins)。
 
 ## 许可证
 

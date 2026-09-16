@@ -1,0 +1,20 @@
+{
+  "name": "pull-android-apk",
+  "interface": {
+    "displayName": "Pull Android Apk"
+  },
+  "plugins": [
+    {
+      "name": "pull-android-apk",
+      "source": {
+        "source": "local",
+        "path": "./plugins/pull-android-apk"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

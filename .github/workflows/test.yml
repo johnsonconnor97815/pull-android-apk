@@ -25,3 +25,5 @@ jobs:
         run: python -S -m unittest discover -s tests -v
       - name: Compile Python
         run: python -m compileall -q scripts tests
+      - name: Verify native plugin bundle
+        run: python -S scripts/build_plugin.py --check
